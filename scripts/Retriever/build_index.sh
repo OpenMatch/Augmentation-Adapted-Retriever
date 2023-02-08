@@ -1,0 +1,11 @@
+python src/openmatch/driver/build_index.py  \
+    --output_dir msmarco/t5-ance/kilt_wikipedia  \
+    --model_name_or_path checkpoints/t5-ance \
+    --per_device_eval_batch_size 1024  \
+    --corpus_path data_hf/kilt_wikipedia.csv  \
+    --doc_template "Title: <title> Text: <text>"  \
+    --doc_column_names id,title,text  \
+    --q_max_len 32  \
+    --p_max_len 128  \
+    --fp16  \
+    --dataloader_num_workers 1

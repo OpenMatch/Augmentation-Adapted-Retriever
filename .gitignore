@@ -1,0 +1,11 @@
+.vscode/
+results/
+checkpoints/
+__pycache__
+*.so
+debug
+*.pkl
+data
+msmarco/
+data_hf/
+apex/
