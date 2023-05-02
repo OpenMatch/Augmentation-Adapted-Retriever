@@ -77,6 +77,66 @@ categories = {
     "other (business, health, misc.)": ["other", "business", "health"],
 }
 
+task_len = {
+    "high_school_biology": 32,
+    "jurisprudence": 11,
+    "prehistory": 35,
+    "high_school_microeconomics": 26,
+    "nutrition": 33,
+    "high_school_geography": 22,
+    "human_sexuality": 12,
+    "astronomy": 16,
+    "moral_scenarios": 100,
+    "clinical_knowledge": 29,
+    "electrical_engineering": 16,
+    "econometrics": 12,
+    "high_school_computer_science": 9,
+    "college_biology": 16,
+    "miscellaneous": 86,
+    "high_school_mathematics": 29,
+    "college_medicine": 22,
+    "high_school_macroeconomics": 43,
+    "us_foreign_policy": 11,
+    "professional_law": 170,
+    "high_school_government_and_politics": 21,
+    "security_studies": 27,
+    "public_relations": 12,
+    "global_facts": 10,
+    "marketing": 25,
+    "high_school_chemistry": 22,
+    "machine_learning": 11,
+    "sociology": 22,
+    "moral_disputes": 38,
+    "college_physics": 11,
+    "high_school_statistics": 23,
+    "management": 11,
+    "virology": 18,
+    "high_school_physics": 17,
+    "high_school_world_history": 26,
+    "international_law": 13,
+    "logical_fallacies": 18,
+    "world_religions": 19,
+    "professional_accounting": 31,
+    "elementary_mathematics": 41,
+    "conceptual_physics": 26,
+    "college_computer_science": 11,
+    "human_aging": 23,
+    "high_school_psychology": 60,
+    "college_mathematics": 11,
+    "medical_genetics": 11,
+    "abstract_algebra": 11,
+    "professional_medicine": 31,
+    "computer_security": 11,
+    "philosophy": 34,
+    "business_ethics": 11,
+    "professional_psychology": 69,
+    "high_school_us_history": 22,
+    "high_school_european_history": 18,
+    "college_chemistry": 8,
+    "formal_logic": 14,
+    "anatomy": 13,
+}
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -86,28 +146,6 @@ def main():
     parser.add_argument("--score", type=str, help="Score")
 
     args = parser.parse_args()
-
-    dir_path = "/data/private/yuzc/Flan-T5-RA/data_hf/MMLU/val"
-    task_len = {}
-    sum = 0
-    for file_name in os.listdir(dir_path):
-        csv_path = os.path.join(dir_path, file_name)
-        task_name = file_name[:-8]
-        with open(csv_path, encoding="utf-8") as csv_file:
-            task_len[task_name] = len(
-                list(
-                    csv.reader(
-                        csv_file,
-                        quotechar='"',
-                        delimiter=",",
-                        quoting=csv.QUOTE_ALL,
-                        skipinitialspace=True,
-                    )
-                )
-            )
-            sum += task_len[task_name]
-    # Hotfix
-    task_len["anatomy"] -= 1
 
     accs = {}
     category_accs = {}
@@ -131,23 +169,16 @@ def main():
                         category_accs[category][0] += sum / value
                         category_accs[category][1] += 1
             accs[key] = sum / value
-    # print(accs)
-    print(np.mean(list(accs.values())))
+    print("All: {:.1f}".format(np.mean(list(accs.values())) * 100))
     # print acc for each category
     sum = 0
     for category, subcategories in categories.items():
-        # print(
-        #     f"{category}: {category_accs[category][0] / category_accs[category][1]}",
-        #     end="\n",
-        # )
         print(
-            "{:.1f} &".format(
-                category_accs[category][0] / category_accs[category][1] * 100
-            ),
-            end=" ",
+            "{}: {:.1f}".format(
+                category, category_accs[category][0] / category_accs[category][1] * 100
+            )
         )
         sum += category_accs[category][1]
-    # print(sum)
 
 
 if __name__ == "__main__":

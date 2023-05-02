@@ -8,26 +8,22 @@ MP_SIZE=1
 NUM_GPUS_PER_WORKER=1 # number of gpus used on one node
 
 DATA_EXT=".jsonl"
-DATA_NAMES="mmlu_msmarco_ra_ance_aar"
-# DATA_NAMES="mmlu_msmarco_ra_contriever_aar"
-# DATA_NAMES="popQA_kilt_wikipedia_ra_ance_aar"
-# DATA_NAMES="popQA_kilt_wikipedia_ra_contriever_aar"
-
+DATA_NAMES="marco_qa_msmarco_ra_ance"
+·
 MASTER_PORT=${1-$(expr $RANDOM + 1000)}
 # CKPT=${1}
 SEED=10
 
-CONFIG_PATH="${LM_DIR}/configs/model/t5_large_config.json"
-CKPT_PATH="${WORKING_DIR}/checkpoints/flan-t5-large/t5-MP1/"
+CONFIG_PATH="${LM_DIR}/configs/model/t5_base_config.json"
+CKPT_PATH="${WORKING_DIR}/checkpoints/flan-t5-base/t5-MP1/"
 
-SAVE_PATH="${WORKING_DIR}/results/flan-t5-large/fp16/zs/${DATA_NAMES}"
+SAVE_PATH="${WORKING_DIR}/results/flan-t5-base/fp16/zs/${DATA_NAMES}"
 
 LOG_FILE="${SAVE_PATH}/log.txt"
 DS_CONFIG="${LM_DIR}/configs/deepspeed/ds_fp16.json"
 TOKENIZER_PATH="${LM_DIR}/vocab_en"
 
-BATCH_SIZE=9 # 1530
-# BATCH_SIZE=11
+BATCH_SIZE=9
 
 
 OPTS=""
@@ -41,7 +37,7 @@ OPTS+=" --log-file ${LOG_FILE}"
 OPTS+=" --load ${CKPT_PATH}"
 OPTS+=" --data-names ${DATA_NAMES}"
 OPTS+=" --FiD"
-OPTS+=" --passage_num 6"
+OPTS+=" --passage_num 10"
 OPTS+=" --distributed-backend nccl"
 OPTS+=" --no-load-optim"
 OPTS+=" --lr-decay-style constant"

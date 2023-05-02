@@ -216,14 +216,14 @@ def get_few_shot_examples_genread(
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", type=str)
+    parser.add_argument("--model_name", type=str, default="text-davinci-002")
     parser.add_argument("--input_file", type=str)
     parser.add_argument("--alias", type=str)
     parser.add_argument("--n_examples", type=int, default=15)
     parser.add_argument(
         "--eval_method",
         type=str,
-        default="vanilla",
+        default="contriever",
         choices=["vanilla", "BM25", "contriever", "genread"],
     )
     parser.add_argument(

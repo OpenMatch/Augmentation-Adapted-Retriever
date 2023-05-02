@@ -18,7 +18,7 @@ if __name__ == "__main__":
     g = open(args.save_path, "w")
 
     qrels = {}
-    with open("marco/qrels.train.tsv", encoding="utf8") as f:
+    with open("data/msmarco/qrels.train.tsv", encoding="utf8") as f:
         tsvreader = csv.reader(f, delimiter="\t")
         for [qid, _, docid, rel] in tsvreader:
             assert rel == "1"
@@ -30,9 +30,6 @@ if __name__ == "__main__":
     id = 0
     sum, overlap = 0, 0
     for qid, rank_list in run.items():
-        # if id in ignore_index:
-        #     id += 1
-        #     continue
         docids = []
         for doc_rank, (docid, _) in enumerate(rank_list):
             docids.append(docid)
@@ -43,7 +40,7 @@ if __name__ == "__main__":
             # pass
             g.write(f"{qid}\t0\t{docid}\t1\n")
         sum += len(qrels[qid])
-        for i in sort_index[:5]:
+        for i in sort_index[:2]:
             if docids[i] not in qrels[qid]:
                 # pass
                 g.write(f"{qid}\t0\t{docids[i]}\t1\n")

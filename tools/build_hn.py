@@ -31,7 +31,7 @@ def load_ranking(rank_file, relevance, n_sample, depth, skip_sample):
                 if q != curr_q:
                     negatives = negatives[:depth]
                     random.shuffle(negatives)
-                    if curr_q in relevance and len(relevance[curr_q]) == 6:
+                    if curr_q in relevance and len(relevance[curr_q]) == 3:
                         yield curr_q, relevance[curr_q], negatives[:n_sample]
                     curr_q = q
                     negatives = (
@@ -47,7 +47,7 @@ def load_ranking(rank_file, relevance, n_sample, depth, skip_sample):
             except StopIteration:
                 negatives = negatives[:depth]
                 random.shuffle(negatives)
-                if curr_q in relevance and len(relevance[curr_q]) == 6:
+                if curr_q in relevance and len(relevance[curr_q]) == 3:
                     yield curr_q, relevance[curr_q], negatives[:n_sample]
                 return
 

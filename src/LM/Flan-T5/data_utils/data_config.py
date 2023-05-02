@@ -1,6 +1,6 @@
 import os
 
-BASE_DATA_DIR = "data_hf"
+BASE_DATA_DIR = "data"
 
 
 def string_to_float(preds, labels):
@@ -223,6 +223,11 @@ DATA_NO_TRAIN = {
 DATA_EVAL_GEN = {("story_gen", "Generate Ending")}
 
 DATA_RETRIEVAL_AUGMENTATION = ["mmlu", "ai2_arc", "marco_qa", "popQA"]
+RA_PASSAGE_NUM = {
+    "mmlu_msmarco_ra_contriever_aar": 10,
+    "popQA_kilt_wikipedia_ra_ance_aar": 3,
+    "popQA_kilt_wikipedia_ra_contriever_aar": 3,
+}
 
 DATA_CONFIG = {
     "popQA": {

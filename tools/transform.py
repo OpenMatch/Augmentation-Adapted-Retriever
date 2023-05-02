@@ -6,12 +6,12 @@ import tqdm
 import copy
 
 
-def transform_new_model(model_hf):
+def transform_new_model(model_hf, layer_num):
     model_new = {}
 
     cnt = 0
 
-    for i in range(24):
+    for i in range(layer_num):
         # encoder
         target_k = "encoder.blocks.{}.self_attn.self_attn.project.weight".format(i)
         source = [
@@ -283,7 +283,7 @@ def main():
         model_hf.update(model_ext)
         print(len(model_hf))
 
-    new_model = transform_new_model(model_hf)
+    new_model = transform_new_model(model_hf, 12 if "base" in args.save_path else 24)
 
     change_mp(new_model, args.save_path, args.mp_size, half=args.half)
 

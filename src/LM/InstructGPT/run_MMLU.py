@@ -162,7 +162,7 @@ if __name__ == "__main__":
     parser.add_argument("--save_dir", "-s", type=str, default="results/")
     parser.add_argument("--task_name", type=str, default="mmlu_validation")
     parser.add_argument("--model_name", type=str, default="text-davinci-002")
-    parser.add_argument("--method_name", type=str, default="raw")
+    parser.add_argument("--method_name", type=str, default="ra")
     args = parser.parse_args()
     main(args)
     # genread(args)

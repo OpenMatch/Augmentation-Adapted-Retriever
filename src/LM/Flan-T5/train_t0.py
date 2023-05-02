@@ -17,6 +17,7 @@ from data_utils.data_config import (
     DATA_NO_TRAIN,
     DATA_EVAL_GEN,
     DATA_RETRIEVAL_AUGMENTATION,
+    RA_PASSAGE_NUM,
 )
 from data_utils import ANSWER_POST_FN
 from tokenization_t5 import EncDecTokenizer
@@ -558,7 +559,7 @@ def evaluate_rank(
     all_preds = []
     if args.prompt_tune:
         all_prompt = torch.load(
-            f"data_hf/{args.data_names}/cache/stored_dembeds.pt",
+            f"data/{args.data_names}/cache/stored_dembeds.pt",
             map_location=lambda storage, loc: storage,
         )
     if args.FiD:
@@ -838,8 +839,10 @@ def main():
         for ra_name in DATA_RETRIEVAL_AUGMENTATION:
             if ra_name in name:
                 DATA_CONFIG[name] = DATA_CONFIG[ra_name]
-                DATA_CONFIG[name]["data_dir"] = f"data_hf/{name}/cache"
+                DATA_CONFIG[name]["data_dir"] = f"data/{name}/cache"
                 break
+        if name in RA_PASSAGE_NUM:
+            args.passage_num = RA_PASSAGE_NUM[name]
         if DATA_CONFIG[name].get("selfsup", False):
             data_prompts[name] = None
         else:

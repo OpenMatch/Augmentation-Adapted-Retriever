@@ -26,11 +26,13 @@ Since there exist some **bugs** in DeepSpeed, you need to make some little modif
 
 We provide the preprocessed data MMLU (target task 1), PopQA (target task 2), and MSMARCO QA (source task) via this [link](TODO).
 
-Please download and unzip it into `data_hf/`.
+Please download and unzip it in the root directory. After that, you will see the `data/` folder.
 
 ## 3 Base Models
 
-The original base model is obtained from HuggingFace. Before running the code, please use the transforming scripts to transfer the original pytorch_model.bin model checkpoints to fit in our DeepSpeed + Megatron framework:
+### 3.1 LM
+
+The original LM is obtained from HuggingFace (e.g., [flan-t5-base](https://huggingface.co/google/flan-t5-base)). Before running the code, please use the transforming scripts to transfer the original pytorch_model.bin model checkpoints to fit in our DeepSpeed + Megatron framework:
 
 ```bash
 mkdir -p checkpoints/flan-t5-base/t5-MP1
@@ -38,7 +40,9 @@ mkdir -p checkpoints/flan-t5-base/t5-MP1
 python tools/transform.py \ --hf_path ${PATH_TO_PYTORCH_MODLE_BIN} --save_path "./checkpoints/flan-t5-base/t5-MP1" --half
 ```
 
-**Note that our base model is the [FLAN-T5 base](https://huggingface.co/google/flan-t5-base).**
+### 3.2 Retriever
+
+For the retriever backbones, please download the [t5-ance](https://huggingface.co/OpenMatch/t5-ance) and [contriever](https://huggingface.co/facebook/contriever-msmarco) into the `checkpoints/` folder.
 
 ## 4 Run the Code
 
@@ -48,9 +52,13 @@ Before running the code, please first change the `WORKING_DIR` to the current di
 
 If the checkpoint is successfully loaded, the log printed to the stdout should contain messages like `successfully loaded /path-to-checkpoint/t5-MP1/mp_rank_00_model_states.pt`. Otherwise, `WARNING: could not find the metadata file /***/latest_checkpointed_iteration.txt will not load any checkpoints and will start from random` will display. Note that when you successfully load the model, you will see messages like `The following zero checkpoints paths are missing: ['/path-to-checkpoint/200000/zero_pp_rank_0_mp_rank_00_optim_states.pt',...` which mean optimizer states are not loaded. This **DOES NOT** affect the use of model inference and you can just ignore it.
 
-### Zero-shot Evaluation
+### 4.1 Zero-shot Evaluation
 
-Running following scripts can reproduce our main results on MMLU and PopQA. If you want to use unassisted versions of LMs, please change the `passage_num` to 0 at first.
+Running following scripts can reproduce our main results of AAR (initialized from ANCE) on MMLU.
+
+- For AAR (initialized from Contriever), please replace the "ance" by "contriever" in the scripts.
+- For unassisted versions of LMs, please change the `passage_num` to 0 at first.
+- For popQA, please modify the `DATA_NAMES` to "popQA_kilt_wikipedia_ra_ance_aar".
 
 For Flan-T5-Base:
 
@@ -76,9 +84,15 @@ For InstructGPT:
 bash scripts/LM/zs_gpt.sh
 ```
 
-### Augmentation-Adapted Training
+To gather the results for four categories on MMLU:
 
-We take T5-ANCE as the retriever backbone in our scripts and you can modify the `model_name_or_path` parameter to specify your own retriever backbone.
+```bash
+python tools/gather_result_MMLU.py --task_name mmlu_msmarco_ra_ance_aar --method_name flan-t5-base --score 41.70
+```
+
+### 4.2 Augmentation-adapted Training
+
+We take ANCE as the retriever backbone in our scripts and you can modify the `model_name_or_path` to specify your own retriever backbone.
 
 First prepare the LM-preferred and human-preferred documents for the augmentation-adapted training:
 

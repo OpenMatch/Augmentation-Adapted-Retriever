@@ -25,24 +25,16 @@ if __name__ == "__main__":
     run = load_from_trec(args.run, as_list=True)
 
     dataset = []
-    data_names = [
-        "popQA",
-        "marco_qa",
-        "mmlu_all_train_msmarco_ra_FiD",
-        "mmlu_all_train_train_msmarco_ra_FiD",
-        "mmlu_msmarco_ra_FiD",
-        "mmlu_kilt_wikipedia_ra_FiD",
-    ]
+    data_names = {
+        "mmlu": "mmlu_msmarco_ra_ance_aar",
+        "popQA": "popQA_kilt_wikipedia_ra_ance_aar",
+        "marco_qa": "marco_qa_msmarco_ra_ance",
+    }
     for name in data_names:
         if name in args.ra_name:
-            data_name = name
+            data_name = data_names[name]
             break
-    split_name = "validation"
-    if data_name == "mmlu_all_train_msmarco_ra_FiD" and "mmlu_all_train" in args.run:
-        split_name = "train"
-    with open(
-        f"/data/private/yuzc/Flan-T5-RA/data_hf/{data_name}/cache/{split_name}.jsonl"
-    ) as f:
+    with open(f"data/{data_name}/cache/validation.jsonl") as f:
         lines = f.readlines()
         for line in lines:
             dataset.append(json.loads(line))
@@ -53,22 +45,18 @@ if __name__ == "__main__":
         for doc_rank, (docid, _) in enumerate(rank_list):
             text = collection[docid]["text"]
             texts.append(text)
-            if len(texts) == 20:
+            if len(texts) == 10:
                 break
         if args.FiD:
             dataset[id].pop("mmlu_demo", None)
-            # random.shuffle(texts)
             dataset[id]["passages"] = texts
         else:
             dataset[id]["mmlu_demo"] = " ".join(texts)
         id += 1
-    os.makedirs(
-        f"/data/private/yuzc/Flan-T5-RA/data_hf/{args.ra_name}/cache/", exist_ok=True
-    )
+    os.makedirs(f"data/{args.ra_name}/cache/", exist_ok=True)
     g = open(
-        f"/data/private/yuzc/Flan-T5-RA/data_hf/{args.ra_name}/cache/{split_name}.jsonl",
+        f"data/{args.ra_name}/cache/validation.jsonl",
         "w",
     )
     for data in dataset:
         g.write(json.dumps(data) + "\n")
-    # print(np.mean([len(t) for t in texts])) # 370

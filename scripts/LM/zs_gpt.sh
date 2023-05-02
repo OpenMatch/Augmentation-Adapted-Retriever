@@ -1,2 +1,2 @@
-python src/LM/InstructGPT/run_MMLU.py
-python src/LM/InstructGPT/run_PopQA.py
+python src/LM/InstructGPT/run_MMLU.py --data_dir data/mmlu_msmarco_ra_ance_aar/cache/validation.jsonl
+python src/LM/InstructGPT/run_PopQA.py --input_file data/popQA/popQA.tsv --ret_path data/popQA/ra_ance_aar.jsonl
