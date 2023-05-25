@@ -1,6 +1,6 @@
 #! /bin/bash
 
-WORKING_DIR="/data/private/yuzc/Augmentation-Adapted-Retriever"
+WORKING_DIR="YOUR_WORKING_DIR"
 LM_DIR="${WORKING_DIR}/src/LM/Flan-T5"
 
 MP_SIZE=1
@@ -8,15 +8,14 @@ MP_SIZE=1
 NUM_GPUS_PER_WORKER=1 # number of gpus used on one node
 
 DATA_EXT=".jsonl"
-# DATA_NAMES="marco_qa_msmarco_ra_ance"
-DATA_NAMES="kilt_kilt_wikipedia_ra_ance"
+DATA_NAMES="marco_qa_msmarco_ra_ance"
 
 MASTER_PORT=${1-$(expr $RANDOM + 1000)}
 # CKPT=${1}
 SEED=10
 
 CONFIG_PATH="${LM_DIR}/configs/model/t5_base_config.json"
-CKPT_PATH="${WORKING_DIR}/../Flan-T5-RA/checkpoints/flan-t5-base/t5-MP1/"
+CKPT_PATH="${WORKING_DIR}/checkpoints/flan-t5-base/t5-MP1/"
 
 SAVE_PATH="${WORKING_DIR}/results/flan-t5-base/fp16/zs/${DATA_NAMES}"
 
@@ -24,7 +23,7 @@ LOG_FILE="${SAVE_PATH}/log.txt"
 DS_CONFIG="${LM_DIR}/configs/deepspeed/ds_fp16.json"
 TOKENIZER_PATH="${LM_DIR}/vocab_en"
 
-BATCH_SIZE=19
+BATCH_SIZE=9
 
 
 OPTS=""

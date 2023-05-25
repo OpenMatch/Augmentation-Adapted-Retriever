@@ -1,6 +1,6 @@
 #! /bin/bash
 
-WORKING_DIR="/data/private/yuzc/Augmentation-Adapted-Retriever"
+WORKING_DIR="YOUR_WORKING_DIR"
 LM_DIR="${WORKING_DIR}/src/LM/Flan-T5"
 
 MP_SIZE=1
@@ -8,7 +8,7 @@ MP_SIZE=1
 NUM_GPUS_PER_WORKER=1 # number of gpus used on one node
 
 DATA_EXT=".jsonl"
-DATA_NAMES="mmlu_msmarco_ra_ance_aar_8000"
+DATA_NAMES="mmlu_msmarco_ra_ance_aar"
 # DATA_NAMES="mmlu_msmarco_ra_contriever_aar"
 # DATA_NAMES="popQA_kilt_wikipedia_ra_ance_aar"
 # DATA_NAMES="popQA_kilt_wikipedia_ra_contriever_aar"
@@ -18,7 +18,7 @@ MASTER_PORT=${1-$(expr $RANDOM + 1000)}
 SEED=10
 
 CONFIG_PATH="${LM_DIR}/configs/model/t5_base_config.json"
-CKPT_PATH="${WORKING_DIR}/../Flan-T5-RA/checkpoints/flan-t5-base/t5-MP1/"
+CKPT_PATH="${WORKING_DIR}/checkpoints/flan-t5-base/t5-MP1/"
 
 SAVE_PATH="${WORKING_DIR}/results/flan-t5-base/fp16/zs/${DATA_NAMES}"
 
@@ -28,7 +28,6 @@ TOKENIZER_PATH="${LM_DIR}/vocab_en"
 
 BATCH_SIZE=17 # 1530
 # BATCH_SIZE=11
-# BATCH_SIZE=20
 
 
 OPTS=""
@@ -42,7 +41,7 @@ OPTS+=" --log-file ${LOG_FILE}"
 OPTS+=" --load ${CKPT_PATH}"
 OPTS+=" --data-names ${DATA_NAMES}"
 OPTS+=" --FiD"
-OPTS+=" --passage_num 10"
+OPTS+=" --passage_num 2"
 OPTS+=" --distributed-backend nccl"
 OPTS+=" --no-load-optim"
 OPTS+=" --lr-decay-style constant"
