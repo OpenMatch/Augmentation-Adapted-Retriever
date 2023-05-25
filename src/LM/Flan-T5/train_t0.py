@@ -155,7 +155,6 @@ def train(
         random_sampler.set_epoch(e)
         train_dataset.set_epoch(e)
         for model_batch, no_model_batch, _, _ in train_dataloader:
-
             forw_out = forward_step(args, model_batch, no_model_batch, model, device)
             loss = forw_out["loss"]
 
@@ -855,22 +854,26 @@ def main():
                 templates = collection.get_dataset(name, None)
             data_prompts[name] = []
             for template_name in templates.all_template_names:
-                if (
-                    "mmlu" in name or "ai2_arc" in name
-                ) and template_name != "heres_a_problem":
+                if "mmlu" in name or "ai2_arc" in name:
+                    if template_name == "heres_a_problem":
+                        data_prompts[name].append(templates[template_name])
                     continue
                 if (
-                    "marco_qa" in name or "popQA" in name
+                    "popQA" in name or "marco_qa" in name or "kilt" in name
                 ) and template_name != "question_with_instruction":
                     continue
                 if (name, template_name) not in DATA_NO_TRAIN:
-                    if "marco_qa" in name:
+                    if "popQA" in name:
+                        prompt = templates[template_name]
+                        prompt.metadata.metrics = ["popQA"]
+                        data_prompts[name].append(prompt)
+                    elif "marco_qa" in name:
                         prompt = templates[template_name]
                         prompt.metadata.metrics = ["BLEU", "ROUGE"]
                         data_prompts[name].append(prompt)
-                    elif "popQA" in name:
+                    elif "kilt" in name:
                         prompt = templates[template_name]
-                        prompt.metadata.metrics = ["popQA"]
+                        prompt.metadata.metrics = ["Trivia QA"]
                         data_prompts[name].append(prompt)
                     else:
                         data_prompts[name].append(templates[template_name])

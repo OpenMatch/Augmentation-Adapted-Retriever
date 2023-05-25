@@ -1,5 +1,7 @@
 # Augmentation-Adapted Retriever (AAR)
 
+Source code and dataset for ACL 2023 Augmentation-Adapted Retriever Improves Generalization of Language Models as Generic Plug-In.
+
 ## 1 Environment
 
 The code requires the CUDA10.2 toolkit.
@@ -24,7 +26,7 @@ Since there exist some **bugs** in DeepSpeed, you need to make some little modif
 
 ## 2 Dataset
 
-We provide the preprocessed data MMLU (target task 1), PopQA (target task 2), and MSMARCO QA (source task) via this [link](TODO).
+We provide the preprocessed data MMLU (target task 1), PopQA (target task 2), and MSMARCO QA (source task) via this [link](https://drive.google.com/file/d/1uYCGYXkYF3eMDbHTR2gSv1nmS_2bP-ZE/view?usp=share_link).
 
 Please download and unzip it in the root directory. After that, you will see the `data/` folder.
 
@@ -110,4 +112,17 @@ Finally get the relevant documents for target tasks using AAR:
 
 ```bash
 bash scripts/Retriever/post_pipeline.sh
+```
+
+## 5 Citation
+
+Please cite our paper if you use AAR in your work:
+
+```bibtex
+@inproceedings{yu2023augmentation,
+   title={Augmentation-Adapted Retriever Improves Generalization of Language Models as Generic Plug-In},
+   author={Yu, Zichun and Xiong, Chenyan and Yu, Shi and Liu, Zhiyuan},
+   booktitle={Proceedings of ACL},
+   year={2023}
+}
 ```

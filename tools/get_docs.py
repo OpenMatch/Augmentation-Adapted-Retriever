@@ -29,6 +29,7 @@ if __name__ == "__main__":
         "mmlu": "mmlu_msmarco_ra_ance_aar",
         "popQA": "popQA_kilt_wikipedia_ra_ance_aar",
         "marco_qa": "marco_qa_msmarco_ra_ance",
+        "kilt": "kilt_kilt_wikipedia_ra_ance",
     }
     for name in data_names:
         if name in args.ra_name:

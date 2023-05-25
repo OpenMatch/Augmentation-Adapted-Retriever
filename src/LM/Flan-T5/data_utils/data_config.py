@@ -222,7 +222,7 @@ DATA_NO_TRAIN = {
 
 DATA_EVAL_GEN = {("story_gen", "Generate Ending")}
 
-DATA_RETRIEVAL_AUGMENTATION = ["mmlu", "ai2_arc", "marco_qa", "popQA"]
+DATA_RETRIEVAL_AUGMENTATION = ["mmlu", "ai2_arc", "popQA", "marco_qa", "kilt"]
 RA_PASSAGE_NUM = {
     "mmlu_msmarco_ra_contriever_aar": 10,
     "popQA_kilt_wikipedia_ra_ance_aar": 3,
@@ -230,6 +230,18 @@ RA_PASSAGE_NUM = {
 }
 
 DATA_CONFIG = {
+    "mmlu": {
+        "name": ["ai2_arc", "ARC-Challenge"],
+        "type": "rank",
+        "do_cache": False,
+        "data_dir": os.path.join(BASE_DATA_DIR, "mmlu/cache"),
+    },
+    "ai2_arc": {
+        "name": ["ai2_arc", "ARC-Challenge"],
+        "type": "rank",
+        "do_cache": True,
+        "data_dir": os.path.join(BASE_DATA_DIR, "ai2_arc/cache"),
+    },
     "popQA": {
         "name": ["trivia_qa", "unfiltered"],
         "type": "gen",
@@ -242,17 +254,11 @@ DATA_CONFIG = {
         "do_cache": False,
         "data_dir": os.path.join(BASE_DATA_DIR, "marco_qa/cache"),
     },
-    "ai2_arc": {
-        "name": ["ai2_arc", "ARC-Challenge"],
-        "type": "rank",
-        "do_cache": True,
-        "data_dir": os.path.join(BASE_DATA_DIR, "ai2_arc/cache"),
-    },
-    "mmlu": {
-        "name": ["ai2_arc", "ARC-Challenge"],
-        "type": "rank",
+    "kilt": {
+        "name": ["trivia_qa", "unfiltered"],
+        "type": "gen",
         "do_cache": False,
-        "data_dir": os.path.join(BASE_DATA_DIR, "mmlu/cache"),
+        "data_dir": os.path.join(BASE_DATA_DIR, "kilt/cache"),
     },
     "commonsense_qa": {
         "type": "rank",

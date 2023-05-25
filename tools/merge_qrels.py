@@ -6,6 +6,7 @@ import csv
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--scores_path", type=str)
+    parser.add_argument("--qrels_path", type=str)
     parser.add_argument("--save_path", type=str)
 
     parser.add_argument("run")
@@ -18,7 +19,7 @@ if __name__ == "__main__":
     g = open(args.save_path, "w")
 
     qrels = {}
-    with open("data/msmarco/qrels.train.tsv", encoding="utf8") as f:
+    with open(args.qrels_path, encoding="utf8") as f:
         tsvreader = csv.reader(f, delimiter="\t")
         for [qid, _, docid, rel] in tsvreader:
             assert rel == "1"

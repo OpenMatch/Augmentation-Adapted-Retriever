@@ -1,6 +1,6 @@
 #! /bin/bash
 
-WORKING_DIR="YOUR_WORKING_DIR"
+WORKING_DIR="/data/private/yuzc/Augmentation-Adapted-Retriever"
 LM_DIR="${WORKING_DIR}/src/LM/Flan-T5"
 
 MP_SIZE=1
@@ -8,7 +8,7 @@ MP_SIZE=1
 NUM_GPUS_PER_WORKER=1 # number of gpus used on one node
 
 DATA_EXT=".jsonl"
-DATA_NAMES="mmlu_msmarco_ra_ance_aar"
+DATA_NAMES="mmlu_msmarco_ra_tart"
 # DATA_NAMES="mmlu_msmarco_ra_contriever_aar"
 # DATA_NAMES="popQA_kilt_wikipedia_ra_ance_aar"
 # DATA_NAMES="popQA_kilt_wikipedia_ra_contriever_aar"
@@ -18,7 +18,7 @@ MASTER_PORT=${1-$(expr $RANDOM + 1000)}
 SEED=10
 
 CONFIG_PATH="${LM_DIR}/configs/model/t5_3b_config.json"
-CKPT_PATH="${WORKING_DIR}/checkpoints/flan-t5-xl/t5-MP1/"
+CKPT_PATH="${WORKING_DIR}/../Flan-T5-RA/checkpoints/flan-t5-xl/t5-MP1/"
 
 SAVE_PATH="${WORKING_DIR}/results/flan-t5-xl/fp16/zs/${DATA_NAMES}"
 

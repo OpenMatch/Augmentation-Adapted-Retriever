@@ -2,6 +2,7 @@ bash scripts/LM/get_scores.sh
 
 python tools/merge_qrels.py \
     --scores_path results/flan-t5-base/fp16/zs/marco_qa_msmarco_ra_ance/stored_FiD_scores.pt \
+    --qrels_path data/msmarco/qrels.train.tsv \
     --save_path data/msmarco/qrels.marco_qa.tsv \
     data/msmarco/t5-ance/marco_qa.trec
 
