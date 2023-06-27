@@ -56,9 +56,9 @@ If the checkpoint is successfully loaded, the log printed to the stdout should c
 
 ### 4.1 Zero-shot Evaluation
 
-Running following scripts can reproduce our main results of AAR (initialized from ANCE) on MMLU.
+Running following scripts can reproduce our main results of [AAR initialized from ANCE](https://huggingface.co/OpenMatch/AAR-ANCE) on MMLU.
 
-- For AAR (initialized from Contriever), please replace the "ance" by "contriever" in the scripts.
+- For [AAR initialized from Contriever](https://huggingface.co/OpenMatch/AAR-Contriever), please replace the "ance" by "contriever" in the scripts.
 - For unassisted versions of LMs, please change the `passage_num` to 0 at first.
 - For popQA, please modify the `DATA_NAMES` to "popQA_kilt_wikipedia_ra_ance_aar".
 
