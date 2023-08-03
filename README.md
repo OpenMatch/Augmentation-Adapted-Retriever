@@ -4,7 +4,7 @@ Source code and dataset for ACL 2023 Augmentation-Adapted Retriever Improves Gen
 
 ## 1 Environment
 
-The code requires the CUDA10.2 toolkit.
+The code is using Python 3.9.13 and requires the CUDA 10.2 toolkit.
 
 ##### Install basic dependencies
 
@@ -29,6 +29,18 @@ Since there exist some **bugs** in DeepSpeed, you need to make some little modif
 We provide the preprocessed data MMLU (target task 1), PopQA (target task 2), and MSMARCO QA (source task) via this [link](https://drive.google.com/file/d/1uYCGYXkYF3eMDbHTR2gSv1nmS_2bP-ZE/view?usp=share_link).
 
 Please download and unzip it in the root directory. After that, you will see the `data/` folder.
+
+You can generate the MSMARCO corpus via the following command:
+
+```bash
+wget --no-check-certificate https://rocketqa.bj.bcebos.com/corpus/marco.tar.gz
+tar -zxf marco.tar.gz
+rm -rf marco.tar.gz
+cd marco
+join  -t "$(echo -en '\t')"  -e '' -a 1  -o 1.1 2.2 1.2  <(sort -k1,1 para.txt) <(sort -k1,1 para.title.txt) | sort -k1,1 -n > corpus.tsv
+```
+
+and move the `corpus.tsv` into the `data/msmarco/` folder.
 
 ## 3 Base Models
 
