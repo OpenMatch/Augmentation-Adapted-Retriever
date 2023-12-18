@@ -1,6 +1,6 @@
 # Augmentation-Adapted Retriever (AAR)
 
-Source code and dataset for ACL 2023 Augmentation-Adapted Retriever Improves Generalization of Language Models as Generic Plug-In.
+Source code and dataset for ACL 2023 [Augmentation-Adapted Retriever Improves Generalization of Language Models as Generic Plug-In](https://aclanthology.org/2023.acl-long.136.pdf).
 
 ## 1 Environment
 
