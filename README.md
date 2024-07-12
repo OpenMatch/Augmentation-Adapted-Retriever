@@ -42,6 +42,12 @@ join  -t "$(echo -en '\t')"  -e '' -a 1  -o 1.1 2.2 1.2  <(sort -k1,1 para.txt) 
 
 and move the `corpus.tsv` into the `data/msmarco/` folder.
 
+You can generate the KILT-Wikipedia corpus via the following command:
+
+```bash
+python tools/process_kilt_wikipedia.py
+```
+
 ## 3 Base Models
 
 ### 3.1 LM
@@ -51,7 +57,7 @@ The original LM is obtained from HuggingFace (e.g., [flan-t5-base](https://huggi
 ```bash
 mkdir -p checkpoints/flan-t5-base/t5-MP1
 
-python tools/transform.py \ --hf_path ${PATH_TO_PYTORCH_MODLE_BIN} --save_path "./checkpoints/flan-t5-base/t5-MP1" --half
+python tools/transform.py \ --hf_path ${PATH_TO_PYTORCH_MODEL_BIN} --save_path "./checkpoints/flan-t5-base/t5-MP1" --half
 ```
 
 ### 3.2 Retriever
